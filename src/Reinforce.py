@@ -89,6 +89,8 @@ class Reinforce:
         results = dict()
 
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()
+
+        print(f"-----------------------------------------------------------------")
         print(f"The average attractiveness of the learners is {avg_l_attrac:.2f}")
 
         results["original_attractiveness"] = avg_l_attrac
@@ -125,6 +127,7 @@ class Reinforce:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        print(f"-----------------------------------------------------------------")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 
@@ -138,10 +141,12 @@ class Reinforce:
         avg_app_j = self.dataset.get_avg_applicable_jobs(self.threshold)
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
 
+        print(f"-----------------------------------------------------------------")
+
         results["new_applicable_jobs"] = avg_app_j
 
         results["recommendations"] = recommendations
-
+        """
         json.dump(
             results,
             open(
@@ -152,4 +157,4 @@ class Reinforce:
                 "w",
             ),
             indent=4,
-        )
+        )"""

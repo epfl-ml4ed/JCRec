@@ -69,3 +69,35 @@ TBD
 - [CourseRecEnv.py](src/CourseRecEnv.py): Classe that implements the evironment for training the agents using the [gymnasium](https://gymnasium.farama.org/index.html) library.
 - [Dataset.py](src/Dataset.py): Class that implments the dataset using resumes, courses and jobs.
 - [matchings.py](src/matchings.py): Contains various matching, similarity, and relevance functions.
+
+
+## To DO 
+1. create a mother class for courserecenv to transfer the step() and reset() method to the different child class. First do a version with the probability
+
+
+
+
+
+
+
+
+1. **Révisez la récompense dans la fonction `step` pour mieux refléter l'impact de la réussite de l'apprentissage.**
+
+2. **Mettez en place un pipeline pour évaluer l'efficacité de la fonction `step` originale par rapport à celle améliorée.**
+    Le code sera dans le fichier run_viz
+   - **Question :**
+     - Comment ajuster les étapes pour une visualisation des performances ?
+     - Quelles données issues des exécutions sont pertinentes pour une visualisation ?
+
+3. **Intégrez dans la récompense une considération pour l'adéquation avec le poste souhaité par le profil.**
+
+4. **Consultez Jibril sur la manière d'évaluer le modèle, comment l'utiliser sur un profil spécifique, et comment télécharger le modèle entraîné.**
+
+---
+
+Pour ajuster les étapes en vue d'une visualisation des performances et identifier les données pertinentes pour une telle visualisation :
+
+- **Ajustement pour Visualisation** : Implémentez des métriques de suivi à chaque étape de l'exécution, comme la récompense accumulée, la précision de la correspondance emploi-profil après chaque cours recommandé, et le nombre de cours nécessaires pour atteindre un certain seuil de réussite. Utilisez ces métriques pour tracer des courbes d'apprentissage ou des histogrammes de distribution des scores.
+
+- **Données Pertinentes pour Visualisation** : Les données d'intérêt pourraient inclure la récompense totale par épisode, le nombre d'étapes nécessaires pour terminer un épisode, la progression des compétences de l'apprenant au fil du temps, et la fréquence de réussite des cours. Comparer ces données avant et après l'amélioration de la fonction `step` peut révéler l'efficacité des ajustements apportés.k with Jibril how to check the model, how to use it on a profile, how to ownload the trained model.
+
