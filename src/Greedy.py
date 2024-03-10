@@ -3,14 +3,17 @@ import json
 
 from copy import deepcopy
 from time import time
+from matchings import learner_course_required_matching
+import numpy as np
 
 # from Dataset import Dataset
 
 
 class Greedy:
-    def __init__(self, dataset, threshold):
+    def __init__(self, dataset, threshold, proba_version):
         self.dataset = dataset
         self.threshold = threshold
+        self.proba_version = proba_version
 
     def update_learner_profile(self, learner, course):
         """Update the learner profile with the skills and levels provided by the course
@@ -73,7 +76,7 @@ class Greedy:
         return course_recommendation
 
     def recommend_and_update(self, learner):
-        """Recommend a course to the learner and update the learner profile
+        """Recommend a course to the learner and update the learner profile, we loop until we have a successful course recommendation
 
         Args:
             learner (list): list of skills and mastery level of the learner
@@ -86,13 +89,34 @@ class Greedy:
         )
         # print(f"{len(enrollable_courses)} courses are enrollable for this learner")
         # print(f"{enrollable_courses.keys()}")
+
+
+        ##Add the probabilistic approach:
+        #First version we just consider the probaility being the matching score, even whrn unsuccesfull the course is still tajen
+        #Second version we consider that when a couse is not succrsful(probability default, the course is not an enroolable course anymore)
+       
         course_recommendation = self.get_course_recommendation(
             learner, enrollable_courses
         )
-
+        course_successful = False
+        while not course_successful:
+            
+            required_matching = matchings.learner_course_required_matching(learner, course_recommendation)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+            course_successful = np.random.rand() < required_matching #the higher the matching the higher the probability of success
+            
+            if self.proba_version == 2 and not course_successful:#case where we delete the failed course from the course pool of the student
+                enrollable_courses.pop(course_recommendation)
+                course_recommendation = self.get_course_recommendation(
+                learner, enrollable_courses
+            )
+            elif not course_successful:
+                course_recommendation = self.get_course_recommendation(
+                learner, enrollable_courses
+            )
+            
         self.update_learner_profile(
-            learner, self.dataset.courses[course_recommendation]
-        )
+                learner, self.dataset.courses[course_recommendation]
+            )   
         return course_recommendation
 
     def greedy_recommendation(self, k, run):

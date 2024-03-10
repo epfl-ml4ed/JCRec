@@ -11,8 +11,11 @@ max_cv_skills: 15
 nb_jobs: 100
 threshold: 0.8
 k: 2
-model: dqn
+model: greedy
 total_steps: 5000
 eval_freq: 1000
 nb_runs: 1
 seed: 42
+proba_version: 1 # condition for the considered probabilistic approach 
+
+## We could add a config for the probability aproach of greedy optimal and the model.

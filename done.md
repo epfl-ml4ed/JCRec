@@ -1,0 +1,28 @@
+# Titre de votre projet
+
+## Introduction
+
+Ce projet vise à développer un système de conseil pour aider les individus à sélectionner les cours les plus pertinents afin de maximiser leur employabilité. Pour atteindre cet objectif, nous avons conçu un environnement Gymnasium spécifique où différents profils peuvent être simulés et testés. En intégrant la considération probabiliste dans des modèles d'apprentissage par renforcement (RL), nous développons des algorithmes capables de prendre des décisions optimales en tenant compte de la probabilité des résultats de leurs actions et de l'impact potentiel de chaque cours sur l'employabilité de l'utilisateur.
+
+En exploitant les techniques avancées de modélisation RL, nous souhaitons fournir des recommandations personnalisées et adaptatives qui prennent en compte non seulement les tendances actuelles du marché de l'emploi mais aussi les préférences et capacités individuelles des utilisateurs. Cela implique l'utilisation d'algorithmes capables d'évaluer l'efficacité des divers parcours éducatifs dans l'amélioration des perspectives d'emploi, rendant ainsi les choix de formation plus stratégiques et fondés sur des données probantes.
+
+## Intégration de la considération probabiliste
+
+- **Intégration au modèle RL :** À ce stade, la considération probabiliste a été intégrée avec succès au modèle RL. Cette intégration permet au modèle de mieux évaluer les conséquences potentielles de ses actions en prenant en compte leur incertitude. Elle a été ajouté a la methode step() comme une coisidération sur lenrequired matchings. Plus clairement le plus haut le matchings skills course le plus haut la probabilités de succés.
+- **Intégration au modèle Greedy :**  la considération probabiliste a étl ajouté au modèle Greedy. cette améloiration est possible grasse au changement dans la méthode recommend_and_update de la classe greedy. En outre une considération sur la garde ou non 
+
+
+### Prochaines étapes
+
+
+
+- **Intégration au modèle Optimal :** De même, nous travaillerons à intégrer la considération probabiliste dans le modèle Optimal. Cela offrira une approche plus sophistiquée dans la sélection des actions, en optimisant les décisions à long terme basées sur la probabilité.
+
+## Conclusion
+
+L'intégration de la considération probabiliste dans les modèles RL, Greedy, et Optimal, associée à notre objectif de conseiller les profils sur les meilleurs cours à prendre pour maximiser leur employabilité, représente une avancée significative dans notre projet. Elle ouvre la voie à des recommandations personnalisées plus robustes et efficaces, capables de guider les utilisateurs vers les choix de formation les plus stratégiques et fondés sur des données probantes.
+
+#### Question:
+- peut-on comparer les valeirs de ombre de jobs accesible pour voir les améiorations des modéles et même des méthodes greedy
+- doit-on garder les cours que l'on a échoué ou plutoz on les enlves pour ne pas refaire les erreurs.
+- comment je fais pour push je n'ai pas les accés 
