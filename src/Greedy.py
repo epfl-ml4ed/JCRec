@@ -3,7 +3,7 @@ import json
 
 from copy import deepcopy
 from time import time
-from matchings import learner_course_required_matching
+import matchings as mt
 import numpy as np
 
 # from Dataset import Dataset
@@ -100,10 +100,12 @@ class Greedy:
         )
         course_successful = False
         while not course_successful:
-            
-            required_matching = matchings.learner_course_required_matching(learner, course_recommendation)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+        
+            course = self.dataset.courses[course_recommendation]
+            required_matching = mt.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
             course_successful = np.random.rand() < required_matching #the higher the matching the higher the probability of success
             
+
             if self.proba_version == 2 and not course_successful:#case where we delete the failed course from the course pool of the student
                 enrollable_courses.pop(course_recommendation)
                 course_recommendation = self.get_course_recommendation(
@@ -127,7 +129,7 @@ class Greedy:
             run (int): run number
         """
         results = dict()
-
+        print(f"-----------------------------------------------------------------")
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()
         print(f"The average attractiveness of the learners is {avg_l_attrac:.2f}")
 
@@ -155,6 +157,7 @@ class Greedy:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        print(f"-----------------------------------------------------------------")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 
@@ -167,6 +170,7 @@ class Greedy:
 
         avg_app_j = self.dataset.get_avg_applicable_jobs(self.threshold)
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
+        print(f"-----------------------------------------------------------------")
 
         results["new_applicable_jobs"] = avg_app_j
 
@@ -181,7 +185,7 @@ class Greedy:
             + str(run)
             + ".json"
         )
-
+        
         json.dump(
             results,
             open(

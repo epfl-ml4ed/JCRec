@@ -35,7 +35,7 @@ nb_jobs: 100 # Number of jobs to use (set to -1 to use all)
 threshold: 0.8 # Threshold for the similarities
 k: 2 # Number of courses to recommend
 model: greedy # Model to use (greedy, optimal, dqn, ppo, a2c)
-total_steps: 50000 # Total number of steps for the training of the agent
+total_steps: 500 # Total number of steps for the training of the agent
 eval_freq: 5000 # Frequency of the evaluation of the agent
 nb_runs: 1 # Number of runs (set to 1 for greedy and optimal since they are deterministic)
 seed: 42 # Seed for the random number generator

@@ -123,7 +123,7 @@ class CourseRecEnv(gym.Env):
     import numpy as np
 
 
-    def step(self, action):
+    def step_2(self, action):
         """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated, and additional information.
 
         Args:
@@ -164,7 +164,7 @@ class CourseRecEnv(gym.Env):
         return observation, reward, terminated, False, info
 
 
-    def step_2(self, action):
+    def step(self, action):
         """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated and additional information.
 
         Args:

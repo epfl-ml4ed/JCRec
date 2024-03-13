@@ -98,6 +98,7 @@ class Optimal:
             enrollable_courses = self.dataset.get_all_enrollable_courses(
                 learner, self.threshold
             )
+
             for id_c, course in enrollable_courses.items():
                 tmp_learner = deepcopy(learner)
                 self.update_learner_profile(tmp_learner, course)
@@ -162,6 +163,7 @@ class Optimal:
             run (int): run number
         """
         results = dict()
+        print(f"-----------------------------------------------------------------")
 
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()
         print(f"The average attractiveness of the learners is {avg_l_attrac:.2f}")
@@ -188,6 +190,7 @@ class Optimal:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        print(f"-----------------------------------------------------------------")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 
@@ -200,6 +203,7 @@ class Optimal:
 
         avg_app_j = self.dataset.get_avg_applicable_jobs(self.threshold)
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
+        print(f"-----------------------------------------------------------------")
 
         results["new_applicable_jobs"] = avg_app_j
 

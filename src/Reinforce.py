@@ -146,7 +146,7 @@ class Reinforce:
         results["new_applicable_jobs"] = avg_app_j
 
         results["recommendations"] = recommendations
-        """
+        
         json.dump(
             results,
             open(
@@ -157,4 +157,4 @@ class Reinforce:
                 "w",
             ),
             indent=4,
-        )"""
+        )
