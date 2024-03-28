@@ -121,7 +121,7 @@ class CourseRecEnv(gym.Env):
         return observation, info
 
 
-    def step_2(self, action):
+    def step(self, action):
         """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated, and additional information.
 
         Args:
@@ -160,43 +160,6 @@ class CourseRecEnv(gym.Env):
         terminated = self.nb_recommendations == self.k
 
         return observation, reward, terminated, False, info
-
-
-    def step(self, action):
-        """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated and additional information.
-
-        Args:
-            action (int): the course to be recommended
-
-        Returns:
-            tuple: the new observation, the reward, whether the episode is terminated, additional information
-        """
-        # Update the agent's skills with the course provided_skills
-
-        course = self.dataset.courses[action]
-        learner = self.obs_to_learner()
-
-        required_matching = matchings.learner_course_required_matching(learner, course)
-        provided_matching = matchings.learner_course_provided_matching(learner, course)
-
-        if required_matching < self.threshold or provided_matching >= 1.0:
-            observation = self._get_obs()
-            reward = -1
-            terminated = True
-            info = self._get_info()
-            return observation, reward, terminated, False, info
-
-        for skill, level in course[1]:
-            self._agent_skills[skill] = max(self._agent_skills[skill], level)
-
-        observation = self._get_obs()
-        info = self._get_info()
-        reward = info["nb_applicable_jobs"]
-        self.nb_recommendations += 1
-        terminated = self.nb_recommendations == self.k
-
-        return observation, reward, terminated, False, info
-
 
 class EvaluateCallback(BaseCallback):
     # The EvaluateCallback class is a callback that evaluates the model at regular intervals during the training.

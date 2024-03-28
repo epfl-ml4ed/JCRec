@@ -11,7 +11,7 @@ max_cv_skills: 15
 nb_jobs: 100
 threshold: 0.8
 k: 1
-model: optimal
+model: greedy
 total_steps: 500
 eval_freq: 100
 nb_runs: 1
