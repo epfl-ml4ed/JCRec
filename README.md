@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```bash
 python src/pipeline.py --config config/run.yaml
 ```
-
+(pour run plusieurs config différents avec python src/pipeline.py --config config/run.yaml créer un name.sh pour le lancer ./name.sh mettre a l'interieur et a la kingne:)
 Below you will find a detailed description of the parameters of the config file
 
 ```yaml

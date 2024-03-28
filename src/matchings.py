@@ -70,6 +70,33 @@ def learner_job_matching(learner, job):
     return matching
 
 
+
+def learner_course_required_matching_totale(learner, courses, data):
+    """
+    Computes the matching between a learner and a list of courses based on the required skills.
+    If the course has no required skills, the matching is 1.
+
+    Args:
+        learner (dict): Learner's profile including possessed skills and levels.
+        courses (dict): Course required and provided skills.
+        data (dict): Data containing the courses.
+
+    Returns:
+        float: matching value between 0 and 1
+    """
+    matching = 0
+    if len(courses) == 0:
+        return 0
+    else:
+        for course in courses:
+            course = data.courses[course]
+            matching += learner_course_required_matching(learner, course)
+        return matching / len(courses)
+
+   
+
+
+
 def learner_course_required_matching(learner, course):
     """Computes the matching between a learner and a course based on the required skills.
     If the course has no required skills, the matching is 1.

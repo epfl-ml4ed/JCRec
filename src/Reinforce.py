@@ -11,7 +11,7 @@ from CourseRecEnv import CourseRecEnv, EvaluateCallback
 
 class Reinforce:
     def __init__(
-        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100
+        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100, type_="proba"
     ):
         self.dataset = dataset
         self.model_name = model
@@ -21,8 +21,14 @@ class Reinforce:
         self.total_steps = total_steps
         self.eval_freq = eval_freq
         # Create the training and evaluation environments
-        self.train_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
-        self.eval_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
+        if type_ == "proba":
+            self.train_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
+            self.eval_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
+        elif type_ == "reward":
+            self.train_env = CourseRecEnv_reward(dataset, threshold=self.threshold, k=self.k)
+            self.eval_env = CourseRecEnv_reward(dataset, threshold=self.threshold, k=self.k)
+        else:
+            raise ValueError("type_ must be either 'proba' or 'reward'")
         self.get_model()
         self.all_results_filename = (
             "all_"

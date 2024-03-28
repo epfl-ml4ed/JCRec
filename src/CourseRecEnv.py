@@ -120,8 +120,6 @@ class CourseRecEnv(gym.Env):
         info = self._get_info()
         return observation, info
 
-    import numpy as np
-
 
     def step_2(self, action):
         """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated, and additional information.

@@ -1,0 +1,23 @@
+taxonomy_path: data/taxonomy.csv
+course_path: data/courses.json
+cv_path: data/resumes.json
+job_path: data/jobs.json
+mastery_levels_path: data/mastery_levels.json
+results_path: results
+level_3: true
+nb_courses: 100
+nb_cvs: -1
+max_cv_skills: 15
+nb_jobs: 100
+threshold: 0.8
+k: 1
+model: greedy
+total_steps: 500
+eval_freq: 100
+nb_runs: 1
+seed: 42
+class: prob # prob or reward
+##### not used yet
+proba_version: 1 # condition for the considered probabilistic approach 
+
+## We could add a config for the probability aproach of greedy optimal and the model.

@@ -3,7 +3,7 @@ import json
 
 from copy import deepcopy
 from time import time
-
+import matchings as mt
 # from Dataset import Dataset
 
 
@@ -73,19 +73,22 @@ class Optimal:
                 learner, self.threshold
             )
             attractiveness = self.dataset.get_learner_attractiveness(learner)
-            if nb_applicable_jobs > max_nb_applicable_jobs:
+            required_matching = mt.learner_course_required_matching_totale(learner, candiate_course_recommendation_list, self.dataset)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+            nb_applicable_jobs_prob = nb_applicable_jobs*required_matching
+
+            if nb_applicable_jobs_prob > max_nb_applicable_jobs:
                 course_recommendations_list = candiate_course_recommendation_list
-                max_nb_applicable_jobs = nb_applicable_jobs
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 max_attractiveness = attractiveness
 
             # If there are multiple courses that maximize the number of applicable jobs,
             # select the one that maximizes the attractiveness of the learner
             elif (
-                nb_applicable_jobs == max_nb_applicable_jobs
+                nb_applicable_jobs_prob == max_nb_applicable_jobs
                 and attractiveness > max_attractiveness
             ):
                 course_recommendations_list = candiate_course_recommendation_list
-                max_nb_applicable_jobs = nb_applicable_jobs
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 max_attractiveness = attractiveness
 
             return (
@@ -190,7 +193,9 @@ class Optimal:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        temps = time_end - time_start
         print(f"-----------------------------------------------------------------")
+        print(f"Recommendation Time: {temps:.2f} seconds")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 

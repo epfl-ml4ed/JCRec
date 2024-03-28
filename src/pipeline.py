@@ -20,18 +20,27 @@ def main():
     """Run the recommender system based on the provided model and parameters."""
     parser = argparse.ArgumentParser(description="Run recommender models.")
 
-    parser.add_argument("--config", help="Path to the configuration file")
+    parser.add_argument("--config", help="Path to the configuration file", default = "config/run.yaml")
 
     args = parser.parse_args()
 
     with open(args.config, "r") as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
-    model_classes = {
-        "greedy": Greedy,
-        "optimal": Optimal,
+    # If the class is reward, we use the reward models, otherwise we use the regular models
+    if config["type"]=="reward":
+        model_classes = {
+        "greedy": Greedy_reward,
+        "optimal": Optimal_reward,
         "reinforce": Reinforce,
     }
+
+    else:
+        model_classes = {
+            "greedy": Greedy,
+            "optimal": Optimal,
+            "reinforce": Reinforce,
+        }
 
     for run in range(config["nb_runs"]):
         dataset = create_and_print_dataset(config)
@@ -52,6 +61,7 @@ def main():
                 run,
                 config["total_steps"],
                 config["eval_freq"],
+                config["type"],
             )
             recommender.reinforce_recommendation()
 

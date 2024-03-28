@@ -58,17 +58,19 @@ class Greedy:
             )
             attractiveness = self.dataset.get_learner_attractiveness(tmp_learner)
 
+            required_matching = mt.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+            nb_applicable_jobs_prob = nb_applicable_jobs*required_matching
             # Select the course that maximizes the number of applicable jobs
 
-            if nb_applicable_jobs > max_nb_applicable_jobs:
-                max_nb_applicable_jobs = nb_applicable_jobs
+            if nb_applicable_jobs_prob > max_nb_applicable_jobs:
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 course_recommendation = id_c
                 max_attractiveness = attractiveness
 
             # If there are multiple courses that maximize the number of applicable jobs,
             # select the one that maximizes the attractiveness of the learner
 
-            elif nb_applicable_jobs == max_nb_applicable_jobs:
+            elif nb_applicable_jobs_prob == max_nb_applicable_jobs:
                 if attractiveness > max_attractiveness:
                     max_attractiveness = attractiveness
                     course_recommendation = id_c
@@ -76,7 +78,7 @@ class Greedy:
         return course_recommendation
 
     def recommend_and_update(self, learner):
-        """Recommend a course to the learner and update the learner profile, we loop until we have a successful course recommendation
+        """Recommend a course to the learner and update the learner profile
 
         Args:
             learner (list): list of skills and mastery level of the learner
@@ -89,36 +91,13 @@ class Greedy:
         )
         # print(f"{len(enrollable_courses)} courses are enrollable for this learner")
         # print(f"{enrollable_courses.keys()}")
-
-
-        ##Add the probabilistic approach:
-        #First version we just consider the probaility being the matching score, even whrn unsuccesfull the course is still tajen
-        #Second version we consider that when a couse is not succrsful(probability default, the course is not an enroolable course anymore)
-       
         course_recommendation = self.get_course_recommendation(
             learner, enrollable_courses
         )
-        course_successful = False
-        while not course_successful:
-        
-            course = self.dataset.courses[course_recommendation]
-            required_matching = mt.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
-            course_successful = np.random.rand() < required_matching #the higher the matching the higher the probability of success
-            
 
-            if self.proba_version == 2 and not course_successful:#case where we delete the failed course from the course pool of the student
-                enrollable_courses.pop(course_recommendation)
-                course_recommendation = self.get_course_recommendation(
-                learner, enrollable_courses
-            )
-            elif not course_successful:
-                course_recommendation = self.get_course_recommendation(
-                learner, enrollable_courses
-            )
-            
         self.update_learner_profile(
-                learner, self.dataset.courses[course_recommendation]
-            )   
+            learner, self.dataset.courses[course_recommendation]
+        )
         return course_recommendation
 
     def greedy_recommendation(self, k, run):
