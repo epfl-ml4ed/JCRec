@@ -74,6 +74,7 @@ TBD
 - add a parameters to differntiate between the probabilty case and the reward case 
 - use this patrmaters though the diffreent files and classes to use the right one
 - create the mother class for the method that diffreentiate between probability and rewrard
+- Add the wanted position in the resume.json (jobs is a number between 15 and 21136) choose the wanted one for a profile at random.
 ## To DO 
 - surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
 - surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
