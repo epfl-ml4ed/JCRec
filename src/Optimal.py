@@ -8,10 +8,9 @@ import matchings as mt
 
 
 class Optimal:
-    def __init__(self, dataset, threshold, proba_version):
+    def __init__(self, dataset, threshold):
         self.dataset = dataset
         self.threshold = threshold
-        self.proba_version = proba_version
 
     def update_learner_profile(self, learner, course):
         """Update the learner profile with the skills and levels provided by the course

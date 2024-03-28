@@ -70,34 +70,12 @@ TBD
 - [Dataset.py](src/Dataset.py): Class that implments the dataset using resumes, courses and jobs.
 - [matchings.py](src/matchings.py): Contains various matching, similarity, and relevance functions.
 
-
+## Done 
+- add a parameters to differntiate between the probabilty case and the reward case 
+- use this patrmaters though the diffreent files and classes to use the right one
+- create the mother class for the method that diffreentiate between probability and rewrard
 ## To DO 
-1. create a mother class for courserecenv to transfer the step() and reset() method to the different child class. First do a version with the probability
-
-
-
-
-
-
-
-
-1. **Révisez la récompense dans la fonction `step` pour mieux refléter l'impact de la réussite de l'apprentissage.**
-
-2. **Mettez en place un pipeline pour évaluer l'efficacité de la fonction `step` originale par rapport à celle améliorée.**
-    Le code sera dans le fichier run_viz
-   - **Question :**
-     - Comment ajuster les étapes pour une visualisation des performances ?
-     - Quelles données issues des exécutions sont pertinentes pour une visualisation ?
-
-3. **Intégrez dans la récompense une considération pour l'adéquation avec le poste souhaité par le profil.**
-
-4. **Consultez Jibril sur la manière d'évaluer le modèle, comment l'utiliser sur un profil spécifique, et comment télécharger le modèle entraîné.**
-
----
-
-Pour ajuster les étapes en vue d'une visualisation des performances et identifier les données pertinentes pour une telle visualisation :
-
-- **Ajustement pour Visualisation** : Implémentez des métriques de suivi à chaque étape de l'exécution, comme la récompense accumulée, la précision de la correspondance emploi-profil après chaque cours recommandé, et le nombre de cours nécessaires pour atteindre un certain seuil de réussite. Utilisez ces métriques pour tracer des courbes d'apprentissage ou des histogrammes de distribution des scores.
-
-- **Données Pertinentes pour Visualisation** : Les données d'intérêt pourraient inclure la récompense totale par épisode, le nombre d'étapes nécessaires pour terminer un épisode, la progression des compétences de l'apprenant au fil du temps, et la fréquence de réussite des cours. Comparer ces données avant et après l'amélioration de la fonction `step` peut révéler l'efficacité des ajustements apportés.k with Jibril how to check the model, how to use it on a profile, how to ownload the trained model.
-
+- surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
+- surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
+- Upgrade the datset class for the reward consideration such as adding a wanted position (this position is just a number, we can by default define this position(numberat random on a profile): Look at the json file to see where to add it): The goal of th ereward model i sto choose courses that will leveraged the best skills to be the best posible for the wanted position.
+- To upgrade the datasetr class we will creazte a mother and a child keeping the mother in the states for proba and adapt it in child for reward. We alsao need to change the curent dataset to add the ewanted profile.

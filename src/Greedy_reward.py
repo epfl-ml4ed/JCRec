@@ -11,8 +11,8 @@ from Greedy import Greedy
 
 
 class Greedy_rewrd(Greedy):
-    def __init__(self, dataset, threshold, proba_version):
-        super().__init__(dataset, threshold, proba_version)
+    def __init__(self, dataset, threshold):
+        super().__init__(dataset, threshold)
         self.child_attribute = "Je suis un attribut de l'enfant"
 
     def methode_child(self):

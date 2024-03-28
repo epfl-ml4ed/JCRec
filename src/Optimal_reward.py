@@ -9,8 +9,8 @@ from Optimal import Optimal
 
 
 class Optimal_reward(Optimal):
-    def __init__(self, dataset, threshold, proba_version):
-        super().__init__(dataset, threshold, proba_version)
+    def __init__(self, dataset, threshold):
+        super().__init__(dataset, threshold)
         self.child_attribute = "Je suis un attribut de l'enfant"
     def methode_child(self):
         return "Ceci est une méthode de l'enfant"

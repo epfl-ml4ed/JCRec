@@ -16,7 +16,7 @@ total_steps: 500
 eval_freq: 100
 nb_runs: 1
 seed: 42
-type: prob #prob or reward
+type: proba #proba or reward
 
 
 ## We could add a config for the probability aproach of greedy optimal and the model.

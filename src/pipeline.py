@@ -46,7 +46,7 @@ def main():
         dataset = create_and_print_dataset(config)
         # If the model is greedy or optimal, we use the corresponding class defined in Greedy.py and Optimal.py
         if config["model"] in ["greedy", "optimal"]:
-            recommender = model_classes[config["model"]](dataset, config["threshold"], config["proba_version"])
+            recommender = model_classes[config["model"]](dataset, config["threshold"])
             recommendation_method = getattr(
                 recommender, f'{config["model"]}_recommendation'
             )
