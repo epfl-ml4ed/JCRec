@@ -3,11 +3,11 @@ import random
 
 import time as time
 import numpy as np
-import gymnasium as gym
+import gymnasium as gym 
 from gymnasium import spaces
 from stable_baselines3.common.callbacks import BaseCallback
 
-import matchings
+import matchings 
 
 
 class CourseRecEnv(gym.Env):
@@ -148,7 +148,7 @@ class CourseRecEnv(gym.Env):
             info = self._get_info()
             return observation, reward, terminated, False, info
 
-
+        # Update the learner's skills based on the course
         if course_successful:
             for skill, level in course[1]:
                 self._agent_skills[skill] = max(self._agent_skills[skill], level)

@@ -1,6 +1,7 @@
 taxonomy_path: data/taxonomy.csv
 course_path: data/courses.json
 cv_path: data/resumes.json
+cv_path_reward: data/resumes_reward.json
 job_path: data/jobs.json
 mastery_levels_path: data/mastery_levels.json
 results_path: results
@@ -11,12 +12,12 @@ max_cv_skills: 15
 nb_jobs: 100
 threshold: 0.8
 k: 1
-model: greedy
+model: ppo
 total_steps: 500
-eval_freq: 100
+eval_freq: 200
 nb_runs: 1
 seed: 42
-type: proba #proba or reward
+type: reward #proba or reward
 
 
 ## We could add a config for the probability aproach of greedy optimal and the model.

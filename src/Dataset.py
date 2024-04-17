@@ -72,12 +72,13 @@ class Dataset:
 
         # load the mastery levels from the mastery levels file
         self.mastery_levels = json.load(open(self.config["mastery_levels_path"]))
-        self.load_learners()
         self.load_jobs()
+        self.load_learners()
         self.load_courses()
         self.get_subsample()
         self.make_course_consistent()
-        self.make_indexes()
+        self.make_indexes()        
+
 
     def load_learners(self, replace_unk=1):
         """Load the learners from the file specified in the config and store it in the class attribute
@@ -241,10 +242,10 @@ class Dataset:
         self.make_learners_index()
         self.make_jobs_index()
         self.make_courses_index()
-
     def make_learners_index(self):
         """Make the index for the learners. The index is a dictionary that maps the learner id to its index and vice versa"""
         self.learners_index = dict()
+        #index_ = 0
         index = 0
         tmp_learners = []
         for learner_id, learner in self.learners.items():
@@ -302,7 +303,7 @@ class Dataset:
         Returns:
             int: the number of applicable jobs
         """
-        nb_applicable_jobs = 0
+        nb_applicable_jobs = 0 
         jobs_subset = set()
         for skill, level in learner:
             if skill in self.jobs_inverted_index:

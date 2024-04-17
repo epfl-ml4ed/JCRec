@@ -4,14 +4,22 @@ import argparse
 import yaml
 
 from Dataset import Dataset
+from Dataset_son_reward import Dataset_son_reward
 from Greedy import Greedy
+from Greedy_reward import Greedy_reward
 from Optimal import Optimal
+from Optimal_reward import Optimal_reward
 from Reinforce import Reinforce
+from Reinforce_reward import Reinforce_reward
+
 
 
 def create_and_print_dataset(config):
     """Create and print the dataset."""
-    dataset = Dataset(config)
+    if config["type"]=="proba":
+        dataset = Dataset(config)
+    elif config["type"]=="reward":
+        dataset = Dataset_son_reward(config)
     print(dataset)
     return dataset
 
@@ -32,14 +40,18 @@ def main():
         model_classes = {
         "greedy": Greedy_reward,
         "optimal": Optimal_reward,
-        "reinforce": Reinforce,
+        "ppo": Reinforce_reward,
+        "dqn": Reinforce_reward,
+        "a2c": Reinforce_reward,
     }
 
     else:
         model_classes = {
             "greedy": Greedy,
             "optimal": Optimal,
-            "reinforce": Reinforce,
+            "a2c": Reinforce,
+            "ppo": Reinforce,
+            "dqn": Reinforce,
         }
 
     for run in range(config["nb_runs"]):
@@ -53,15 +65,14 @@ def main():
             recommendation_method(config["k"], run)
         # Otherwise, we use the Reinforce class, described in Reinforce.py
         else:
-            recommender = Reinforce(
+            recommender = model_classes[config["model"]](
                 dataset,
-                config["model"],
+                config["model"], 
                 config["k"], 
                 config["threshold"],
                 run,
                 config["total_steps"],
                 config["eval_freq"],
-                config["type"],
             )
             recommender.reinforce_recommendation()
 

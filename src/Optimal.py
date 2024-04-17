@@ -51,6 +51,7 @@ class Optimal:
         max_nb_applicable_jobs,
         max_attractiveness,
         k,
+        job_wanted=None,
     ):
         """Recursively get the optimal sequence of courses for a learner
 
@@ -125,7 +126,7 @@ class Optimal:
                 max_attractiveness,
             )
 
-    def recommend_and_update(self, learner, k):
+    def recommend_and_update(self, learner, k, job_wanted=None):
         """Recommend a sequence of courses to the learner and update the learner profile
 
         Args:
@@ -164,7 +165,7 @@ class Optimal:
             k (int): number of courses to recommend
             run (int): run number
         """
-        results = dict()
+        results = dict() 
         print(f"-----------------------------------------------------------------")
 
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()

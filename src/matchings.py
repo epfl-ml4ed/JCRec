@@ -16,7 +16,6 @@ def skill_skill_similarity(provided_level, required_level):
     """
     return min(provided_level, required_level) / required_level
 
-
 def learner_job_matching(learner, job):
     """
     Computes the compatibility score between a learner's skills and a job's required skills.
@@ -27,35 +26,23 @@ def learner_job_matching(learner, job):
     similarity ratios for all required skills, expressed as a percentage.
 
     Args:
-        learner (dict): Dictionary containing details about the learner.
-                        - "possessed_skills": Dictionary where keys are skill names and values
-                                              represent mastery levels.
-                        - "year": Year associated with the learner's data.
-        job (dict): Dictionary containing job requirements.
-                    - "required_skills": Dictionary where keys are skill names and values
-                                         represent required mastery levels.
-                    - "year": Year associated with the job's data.
+        learner (list): List of tuples where each tuple represents a skill and its mastery level.
+        job (list): List of tuples where each tuple represents a required skill and its required mastery level.
 
     Returns:
         float: Matching score between the learner and the job, ranging from 0 to 1.
 
     Example:
-        learner = {
-            "possessed_skills": {
-                "Python": 3,
-                "JavaScript": 1
-            },
-            "year": 2020
-        }
-        job = {
-            "required_skills": {
-        "Python": 2,
-        "JavaScript": 3
-            },
-            "year": 2023
-        }
+        learner = [
+            ("Python", 3),
+            ("JavaScript", 1)
+        ]
+        job = [
+            ("Python", 2),
+            ("JavaScript", 3)
+        ]
         score = learner_job_matching(learner, job)
-        print(score)  # This would output 66.66666
+        print(score)  # This would output 0.8333333333333334
     """
     matching = 0
 
@@ -64,7 +51,8 @@ def learner_job_matching(learner, job):
         for lskill, llevel in learner:
             if jskill == lskill:
                 matching += skill_skill_similarity(llevel, jlevel)
-
+    if len(job) == 0:
+        return 1
     matching /= len(job)
 
     return matching

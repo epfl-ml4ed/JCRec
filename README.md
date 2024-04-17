@@ -71,12 +71,53 @@ TBD
 - [matchings.py](src/matchings.py): Contains various matching, similarity, and relevance functions.
 
 ## Done 
-- add a parameters to differntiate between the probabilty case and the reward case 
-- use this patrmaters though the diffreent files and classes to use the right one
-- create the mother class for the method that diffreentiate between probability and rewrard
-- Add the wanted position in the resume.json (jobs is a number between 15 and 21136) choose the wanted one for a profile at random.
+- Changement Greedy_reward:
+        - changer nb_applicable_jobs par learner_job_matching()
+        - addapter la méthode get_course_recommendation() 
+        - corriger les problèmes de compilation
+
+- Pipeline:
+    - Ajouts des considération du config pour le choix des classe reward ou non (greedy. optimal, dataset)
+- Reinforce:
+    - 
+- Course Rec env_reward:
+    -  Changer       self.nb_skills = len(dataset.skills) -> self.nb_skills = 2*len(dataset.skills) ¨
+    - step()
+            - changer le reward pour step()
+            - Pour reward mon bur est de maximiser learner_job_matching() de matching donc dans step() on doit considérer       learner_job_matching comme reward.
+    - Reset():
+            - creer get_random_env() avec get_random_learner() get_random_job() attention nb skills max et min a detrerminer en fonctio des nombres de skills dasnn les jobs de jobs.json 
+- Changement Optimal_Reward:
+        - addapter la méthode get_course_recommendation() 
+        - corriger les problèmes de compilation
+- Changement classe dataset_son_reward:
+    - Ajouter la considération sur les 2 possibles classe dataset dans pipelines
+    - Déterminer quelles méthodes addapter dans la classe fille(considérant le reward)
+    - addapter les méthodes nécessaire(load_learners(),)
+    - vérifier que le bon dataset est considéré
+    - Changement de datset considéré pour leraners de cv_path->cv_path_reward
+    - changer dataset pour que self.learners_wanted[learner_id]  soit un dictionnsaire avec les skills du jobs  (chercher le dictionnaire des skills dans jobs) attentiuon a bien faire un dictionnaire.
+    - retravailler le dataset, probléme avec lerners_wanted le format semble ne pas être le bon c'est un dictionnaire de dictionaire, et il semblerait que le forat voulu et liste de tuples comme on le voit dans lerners^. on peut imaginer regqrder la liste lerners.index pour changer l'allure de lerners_wanted tout en gardant les lerners_wanted au bonne position. (les changements ont étédans make_learners_index() pour avoir le bon format) 
+    - Ajpout fonction get_average_matching_job_learners() permetant de calculer la moyenne des matching entre wanted job et profile.
+
+- matchings:
+    
+- Autre: 
+    - création et ajout  du datafiles resumes_reward ( création par data_reward_changes)
+    - Création des classe filles et choix des méthodes a surchargées
+    - ajout d'un paramétre a config pour différencier de proba modéle a reward modele
+    - considération a travers les classe et pipeline du nouveau paramétres du config pour le choix des classes
+    - Add the wanted position in the resume.json (jobs is a number between 15 and 21136) choose the wanted one for a profile at random.
+    - scarp job pour creer le set de numero de job, pour le nouveau fdataset reume prendre les bons numeros de job.
+
+
 ## To DO 
-- surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
-- surcharge the child method with the right logique for the reward interpretation (greedy_rewrd, optimal_reward, courseRecEnv_reward)
-- Upgrade the datset class for the reward consideration such as adding a wanted position (this position is just a number, we can by default define this position(numberat random on a profile): Look at the json file to see where to add it): The goal of th ereward model i sto choose courses that will leveraged the best skills to be the best posible for the wanted position.
-- To upgrade the datasetr class we will creazte a mother and a child keeping the mother in the states for proba and adapt it in child for reward. We alsao need to change the curent dataset to add the ewanted profile.
+
+- regarder tutoriel pour verifications des accés
+- résoudre pb RL
+- Change the callback for reward so its shows the matching avg between job and learner.
+- 
+- attention pb resume avev wanted job vide a considérer: pour ce cas on va supposer aue un wanted job vide est un job qui ne demande pas de skills que l'on peut apprendre avec des cours donc le matchings avec n'import quelle profile est de 1 dans ce cas.
+
+## Question:
+- Si pour le modele Reward on a pas de job (un job vide) que considéer on. j'ai opter pour ne pas considérer ces cas. dans optimal_reward  les job_wanmted vide sont passé.

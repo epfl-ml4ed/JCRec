@@ -34,7 +34,7 @@ class Greedy:
             if not found:
                 learner.append((cskill, clevel))
 
-    def get_course_recommendation(self, learner, enrollable_courses):
+    def get_course_recommendation(self, learner, enrollable_courses, job_wanted=None):
         """Return the greedy recommendation for the learner
 
         Args:
@@ -76,7 +76,7 @@ class Greedy:
 
         return course_recommendation
 
-    def recommend_and_update(self, learner):
+    def recommend_and_update(self, learner, job_wanted=None):
         """Recommend a course to the learner and update the learner profile
 
         Args:
