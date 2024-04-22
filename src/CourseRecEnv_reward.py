@@ -7,10 +7,10 @@ import gymnasium as gym
 from gymnasium import spaces
 from stable_baselines3.common.callbacks import BaseCallback
 
-import matchings
+import matchings as mt
 from CourseRecEnv import CourseRecEnv, EvaluateCallback
 from Dataset_son_reward import Dataset_son_reward
-from Optimal_reward import Optimal_reward
+from Optimal_reward import Optimal_reward 
 
 
 class CourseRecEnv_reward(CourseRecEnv):
@@ -24,8 +24,17 @@ class CourseRecEnv_reward(CourseRecEnv):
         self.min_skills_job = min([len(job) for job in dataset.jobs])
         self.max_skills_job = max([len(job) for job in dataset.jobs])
 
-        print(self.observation_space)
+    def obs_to_learner(self):
+        """Converts the observation from a numpy array to a list of skills and levels.
 
+        Returns:
+            list: the list of skills and levels of the learner
+        """
+        learner = []
+        for skill, level in enumerate(self._agent_skills):
+            if level > 0:
+                learner.append((skill, level))
+        return learner
     
     def step(self, action):
         """Method required by the gym environment. It performs the action in the environment and returns the new observation, the reward, whether the episode is terminated, and additional information.
@@ -38,10 +47,14 @@ class CourseRecEnv_reward(CourseRecEnv):
         """
 
         course = self.dataset.courses[action]
-        learner = self.obs_to_learner()
+        learner_job = self.obs_to_learner()###### ici on a un pb il semblerait qu'on ait pas aasez
+        # de skills pour le job et le learner car on doit avoir a la fois learner 
+        # et job du a la methode learner_to_obs() qui crée une list edepuis les 
+        learner = [(skill, level) for skill, level in learner_job if skill < int(self.nb_skills/2)]####### on a créer learner_job en prenat des job a la mooitié donc on l'enleve
+        job_wanted = [(skill-int(self.nb_skills/2), level) for skill, level in learner_job if skill >= int(self.nb_skills/2)]#######
 
-        required_matching = matchings.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
-        provided_matching = matchings.learner_course_provided_matching(learner, course)# nombre de skills gained par le cours. donc si le nb est hait alors le cours est inutile
+        required_matching = mt.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+        provided_matching = mt.learner_course_provided_matching(learner, course)# nombre de skills gained par le cours. donc si le nb est hait alors le cours est inutile
         
         # Determine if the course is successful based on a probability, which depends on the matching between the learner and the course
         course_success_probability = required_matching # for example, 80% success rate
@@ -60,8 +73,8 @@ class CourseRecEnv_reward(CourseRecEnv):
                 self._agent_skills[skill] = max(self._agent_skills[skill], level)
 
         observation = self._get_obs()
-        job_wanted = self.Dataset_son_reward.get_learner_job_wanted(tmp_learner)
-        reward = learner_job_matching(learner, job_wanted) if course_successful else -1  # adjust reward based on course success
+        info = self._get_info()
+        reward = mt.learner_job_matching(learner, job_wanted) if course_successful else -1  # adjust reward based on course success
         self.nb_recommendations += 1
         terminated = self.nb_recommendations == self.k
 
@@ -76,8 +89,24 @@ class CourseRecEnv_reward(CourseRecEnv):
             np.array: the current observation of the environment, that is the learner's skills
         """
         return self._agent_skills
+
+    def learner_to_obs(self, learner, job_wanted):
+        """Converts the list of skills and levels to a numpy array.
+
+        Args:
+            learner (list): list of skills and levels of the learner
+
+        Returns:
+            np.array: the observation of the environment, that is the learner's skills
+        """
+        obs = np.zeros(self.nb_skills, dtype=np.int32)
+        for (skill, level), (job_skill, job_level) in zip(learner, job_wanted):
+            obs[skill] = level
+            obs[int(self.nb_skills/2) + job_skill] = job_level
+        return obs
+
     
-    def reset(self, seed=None, learner=None):
+    def reset(self, seed=None, learner=None, job_wanted=None):
         """Method required by the gym environment. It resets the environment to its initial state.
 
         Args:
@@ -91,7 +120,7 @@ class CourseRecEnv_reward(CourseRecEnv):
         super().reset(seed=seed)
 
         if learner is not None:
-            self._agent_skills = self.learner_to_obs(learner)
+            self._agent_skills = self.learner_to_obs(learner, job_wanted)##probleme ici
         else:
             self._agent_skills = self.get_random_env()
         self.nb_recommendations = 0
@@ -105,7 +134,6 @@ class CourseRecEnv_reward(CourseRecEnv):
         initial_skills = np.zeros(self.nb_skills, dtype=np.int32)
         initial_skills[:len(learner)] = learner
         initial_skills[len(learner):] = job_wanted
-        print(ici)
         return initial_skills
 
     def get_random_learner(self):
@@ -165,14 +193,10 @@ class EvaluateCallback_reward(EvaluateCallback):
             """
             if self.n_calls % self.eval_freq == 0:
                 time_start = time.time()
-                avg_jobs = 0
-                for learner in self.eval_env.dataset.learners:
-    
-                    tmp_avg_jobs = self.eval_env.dataset.get_average_matching_job_learners()
-                    avg_jobs += tmp_avg_jobs
+                avg_jobs = self.eval_env.dataset.get_average_matching_job_learners()
                 time_end = time.time()
                 print(
-                    f"Iteration {self.n_calls}. Average matching job and learners: {avg_jobs / len(self.eval_env.dataset.learners)} Time: {time_end - time_start}"
+                    f"Iteration {self.n_calls}. Average matching job and learners: {avg_jobs} Time: {time_end - time_start}"
                 )
                 with open(
                     os.path.join(

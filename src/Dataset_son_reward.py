@@ -92,7 +92,7 @@ class Dataset_son_reward(Dataset):
 
         Returns:
             dict: the job wanted by the learner
-        """
+        """ 
         return self.learners_wanted[learner]
 
     def make_learners_index(self):

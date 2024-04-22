@@ -11,20 +11,16 @@ from Reinforce import Reinforce
 from CourseRecEnv import EvaluateCallback, CourseRecEnv
 from CourseRecEnv_reward import EvaluateCallback_reward, CourseRecEnv_reward
 
- 
+  
+
  
 class Reinforce_reward(Reinforce):
     def __init__(
         self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100
     ):
-        super().__init__(dataset, model, k, threshold, run, total_steps, eval_freq)
-        self.train_env = CourseRecEnv_reward(dataset, threshold=self.threshold, k=self.k)
-        self.eval_env = CourseRecEnv_reward(dataset, threshold=self.threshold, k=self.k)
-        self.eval_callback = EvaluateCallback_reward(
-            self.eval_env,
-            eval_freq=self.eval_freq,
-            all_results_filename=self.all_results_filename,
-        )
+        # Appel au constructeur de la classe mère avec une classe d'environnement spécifique
+        super().__init__(dataset, model, k, threshold, run, total_steps, eval_freq,
+                         env_class=CourseRecEnv_reward, callback_class=EvaluateCallback_reward)
 
     def get_model(self):
         """Sets the model to be used for the recommendation. The model is from stable-baselines3 and is chosen based on the model_name attribute."""
@@ -86,11 +82,14 @@ class Reinforce_reward(Reinforce):
         time_start = time()
         recommendations = dict()
         for i, learner in enumerate(self.dataset.learners):
-            self.eval_env.reset(learner=learner)
+            job_wanted=self.dataset.learners_wanted[i]
+            self.eval_env.reset(learner=learner, job_wanted=job_wanted)
             done = False
             index = self.dataset.learners_index[i]
             recommendation_sequence = []
             while not done:
+                recherche_job =self.dataset.learners_wanted[i]
+
                 obs = self.eval_env._get_obs()
                 action, _state = self.model.predict(obs, deterministic=True)
                 obs, reward, done, _, info = self.eval_env.step(action)
@@ -121,7 +120,6 @@ class Reinforce_reward(Reinforce):
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
 
         new_avg_matching=self.dataset.get_average_matching_job_learners()
-
         print(f"The new matching between learners and jobs is {new_avg_matching}")
 
         print(f"-----------------------------------------------------------------")
@@ -132,7 +130,6 @@ class Reinforce_reward(Reinforce):
 
 
         results["recommendations"] = recommendations
-        print('fucj')
         
         json.dump(
             results,

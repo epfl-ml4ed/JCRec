@@ -11,7 +11,8 @@ from CourseRecEnv import CourseRecEnv, EvaluateCallback
 
 class Reinforce:
     def __init__(
-        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100
+        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100,
+        env_class=CourseRecEnv, callback_class = EvaluateCallback   # Paramètre pour la classe d'environnement avec une valeur par défaut
     ):
         self.dataset = dataset
         self.model_name = model
@@ -20,9 +21,10 @@ class Reinforce:
         self.run = run
         self.total_steps = total_steps
         self.eval_freq = eval_freq
-        # Create the training and evaluation environments
-        self.train_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
-        self.eval_env = CourseRecEnv(dataset, threshold=self.threshold, k=self.k)
+        # Utilisation de env_class pour créer les environnements de formation et d'évaluation
+        self.train_env = env_class(dataset, threshold=self.threshold, k=self.k)
+        self.eval_env = env_class(dataset, threshold=self.threshold, k=self.k)
+
         
         self.get_model()
         self.all_results_filename = (
@@ -48,7 +50,7 @@ class Reinforce:
             + ".json"
         )
 
-        self.eval_callback = EvaluateCallback(
+        self.eval_callback = callback_class(
             self.eval_env,
             eval_freq=self.eval_freq,
             all_results_filename=self.all_results_filename,
