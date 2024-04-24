@@ -1,0 +1,36 @@
+apiVersion: run.ai/v1  # Specifies the version of the Run.ai API this resource is written against.
+kind: RunaiJob  # Specifies the kind of resource, in this case, a Run.ai Job.
+metadata:
+  name: pval_sem_a2c  #############################  # TO CHANGE
+  namespace: runai-ml4ed-peyron  # The namespace in which the job will be created.
+  labels:
+    user: peyron # REPLACE Tequila user
+spec:
+  template:
+    metadata:
+      labels:
+        user: valentin.peyron  # REPLACE
+    spec:
+      hostIPC: true  # Do not change this
+      schedulerName: runai-scheduler  # Do not change this
+      restartPolicy: Never  # Specifies the pod's restart policy. Here, the pod won't be restarted if it terminates.
+      securityContext:
+        runAsUser: 202340 # Get this from https://people.epfl.ch/valentin.peyron
+        runAsGroup: 30207 # Get this from https://people.epfl.ch/valentin.peyron
+        fsGroup: 30207 # Get this from https://people.epfl.ch/valentin.peyron
+      containers:
+      - name: container-name  # No idea why we have this, we already have the job name
+        image: ic-registry.epfl.ch/d-vet/pval_sem_a2c #############################  # TO CHANGE
+        args:  # Arguments passed to the container.
+        - name: a2c_run.sh # dqn_run.sh, ppo_run.sh, greedy_run.sh, optimal_run.sh
+        resources:
+          limits:
+            cpu: "20"  # Limit the container to use 1 CPU core.
+            nvidia.com/gpu: 0  # Specifies no GPU for this container.
+        volumeMounts:
+        - mountPath: /data  # Path in the container at which the volume should be mounted.
+          name: data-volume  # Refers to the name of the volume to be mounted.
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: runai-ml4ed-frej-ml4eddata1  # The name of the PVC that this volume will use.

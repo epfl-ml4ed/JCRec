@@ -1,7 +1,19 @@
 # Job-market Oriented Course Recommendation System
 
 Repository of experiments for a job market oriented course recommender system. Ongoing project, more work is required.
-
+## Docker use:
+1. construire image docker:
+```bash
+docker build -t nom_de_votre_image:etiquette .
+```
+2. éxecuter conatiner précédement crée:
+```bash
+docker run --name nom_de_votre_conteneur nom_de_votre_image:etiquette
+```
+3. Si vous voilez voir le docker construit:
+```bash
+docker images
+```
 ## Installation
 
 Requires python 3.10

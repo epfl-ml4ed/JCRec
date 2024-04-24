@@ -1,0 +1,20 @@
+taxonomy_path: data/taxonomy.csv
+course_path: data/courses.json
+cv_path: data/resumes.json
+cv_path_reward: data/resumes_reward.json
+job_path: data/jobs.json
+mastery_levels_path: data/mastery_levels.json
+results_path: results
+level_3: true
+nb_courses: -1
+nb_cvs: -1
+max_cv_skills: 15
+nb_jobs: -1
+threshold: 0.8
+k: 3
+model: ppo #AAtention ppo utilise plus de steps dqn utilise le bon nombre
+total_steps: 5000000
+eval_freq: 500000
+nb_runs: 1
+seed: 42
+type: reward #proba or reward

@@ -32,6 +32,7 @@ def main():
 
     args = parser.parse_args()
 
+
     with open(args.config, "r") as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
