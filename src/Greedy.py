@@ -3,6 +3,8 @@ import json
 
 from copy import deepcopy
 from time import time
+import matchings as mt
+import numpy as np
 
 # from Dataset import Dataset
 
@@ -32,7 +34,7 @@ class Greedy:
             if not found:
                 learner.append((cskill, clevel))
 
-    def get_course_recommendation(self, learner, enrollable_courses):
+    def get_course_recommendation(self, learner, enrollable_courses, job_wanted=None):
         """Return the greedy recommendation for the learner
 
         Args:
@@ -55,24 +57,26 @@ class Greedy:
             )
             attractiveness = self.dataset.get_learner_attractiveness(tmp_learner)
 
+            required_matching = mt.learner_course_required_matching(learner, course)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+            nb_applicable_jobs_prob = nb_applicable_jobs*required_matching
             # Select the course that maximizes the number of applicable jobs
 
-            if nb_applicable_jobs > max_nb_applicable_jobs:
-                max_nb_applicable_jobs = nb_applicable_jobs
+            if nb_applicable_jobs_prob > max_nb_applicable_jobs:
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 course_recommendation = id_c
                 max_attractiveness = attractiveness
 
             # If there are multiple courses that maximize the number of applicable jobs,
             # select the one that maximizes the attractiveness of the learner
 
-            elif nb_applicable_jobs == max_nb_applicable_jobs:
+            elif nb_applicable_jobs_prob == max_nb_applicable_jobs:
                 if attractiveness > max_attractiveness:
                     max_attractiveness = attractiveness
                     course_recommendation = id_c
 
         return course_recommendation
 
-    def recommend_and_update(self, learner):
+    def recommend_and_update(self, learner, job_wanted=None):
         """Recommend a course to the learner and update the learner profile
 
         Args:
@@ -103,7 +107,7 @@ class Greedy:
             run (int): run number
         """
         results = dict()
-
+        print(f"-----------------------------------------------------------------")
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()
         print(f"The average attractiveness of the learners is {avg_l_attrac:.2f}")
 
@@ -131,6 +135,7 @@ class Greedy:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        print(f"-----------------------------------------------------------------")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 
@@ -143,6 +148,7 @@ class Greedy:
 
         avg_app_j = self.dataset.get_avg_applicable_jobs(self.threshold)
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
+        print(f"-----------------------------------------------------------------")
 
         results["new_applicable_jobs"] = avg_app_j
 
@@ -157,7 +163,7 @@ class Greedy:
             + str(run)
             + ".json"
         )
-
+        
         json.dump(
             results,
             open(

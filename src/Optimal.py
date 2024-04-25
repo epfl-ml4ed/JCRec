@@ -3,7 +3,7 @@ import json
 
 from copy import deepcopy
 from time import time
-
+import matchings as mt
 # from Dataset import Dataset
 
 
@@ -51,6 +51,7 @@ class Optimal:
         max_nb_applicable_jobs,
         max_attractiveness,
         k,
+        job_wanted=None,
     ):
         """Recursively get the optimal sequence of courses for a learner
 
@@ -72,19 +73,22 @@ class Optimal:
                 learner, self.threshold
             )
             attractiveness = self.dataset.get_learner_attractiveness(learner)
-            if nb_applicable_jobs > max_nb_applicable_jobs:
+            required_matching = mt.learner_course_required_matching_totale(learner, candiate_course_recommendation_list, self.dataset)# nombre de skills posséder par le profil nécessiare pour le cours donc si le nb est faible alors le cours n epeut pas etre suivi
+            nb_applicable_jobs_prob = nb_applicable_jobs*required_matching
+
+            if nb_applicable_jobs_prob > max_nb_applicable_jobs:
                 course_recommendations_list = candiate_course_recommendation_list
-                max_nb_applicable_jobs = nb_applicable_jobs
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 max_attractiveness = attractiveness
 
             # If there are multiple courses that maximize the number of applicable jobs,
             # select the one that maximizes the attractiveness of the learner
             elif (
-                nb_applicable_jobs == max_nb_applicable_jobs
+                nb_applicable_jobs_prob == max_nb_applicable_jobs
                 and attractiveness > max_attractiveness
             ):
                 course_recommendations_list = candiate_course_recommendation_list
-                max_nb_applicable_jobs = nb_applicable_jobs
+                max_nb_applicable_jobs = nb_applicable_jobs_prob
                 max_attractiveness = attractiveness
 
             return (
@@ -97,6 +101,7 @@ class Optimal:
             enrollable_courses = self.dataset.get_all_enrollable_courses(
                 learner, self.threshold
             )
+
             for id_c, course in enrollable_courses.items():
                 tmp_learner = deepcopy(learner)
                 self.update_learner_profile(tmp_learner, course)
@@ -121,7 +126,7 @@ class Optimal:
                 max_attractiveness,
             )
 
-    def recommend_and_update(self, learner, k):
+    def recommend_and_update(self, learner, k, job_wanted=None):
         """Recommend a sequence of courses to the learner and update the learner profile
 
         Args:
@@ -160,7 +165,8 @@ class Optimal:
             k (int): number of courses to recommend
             run (int): run number
         """
-        results = dict()
+        results = dict() 
+        print(f"-----------------------------------------------------------------")
 
         avg_l_attrac = self.dataset.get_avg_learner_attractiveness()
         print(f"The average attractiveness of the learners is {avg_l_attrac:.2f}")
@@ -187,6 +193,9 @@ class Optimal:
 
         time_end = time()
         avg_recommendation_time = (time_end - time_start) / len(self.dataset.learners)
+        temps = time_end - time_start
+        print(f"-----------------------------------------------------------------")
+        print(f"Recommendation Time: {temps:.2f} seconds")
 
         print(f"Average Recommendation Time: {avg_recommendation_time:.2f} seconds")
 
@@ -199,6 +208,7 @@ class Optimal:
 
         avg_app_j = self.dataset.get_avg_applicable_jobs(self.threshold)
         print(f"The new average nb of applicable jobs per learner is {avg_app_j:.2f}")
+        print(f"-----------------------------------------------------------------")
 
         results["new_applicable_jobs"] = avg_app_j
 
