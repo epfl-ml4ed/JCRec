@@ -114,7 +114,7 @@ class Dataset_son_reward(Dataset):
             tmp_learners.append([(skill, level) for skill, level in learner.items()])
             index += 1
         self.learners = tmp_learners
-        self.learners_wanted = tmp_learners_wanted
+        self.learners_wanted = tmp_learners_wanted 
 
     def get_average_matching_job_learners(self):
         """Compute the average matching between all the learners and their wanted jobs wanted
