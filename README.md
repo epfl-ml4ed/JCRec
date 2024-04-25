@@ -14,6 +14,71 @@ docker run --name nom_de_votre_conteneur nom_de_votre_image:etiquette
 ```bash
 docker images
 ```
+
+## Run:ai use on the ml4ed server:
+
+1. construire image docker:
+```bash
+docker build -t nom_de_votre_image:etiquette . # ex: pval-sem-a2c:v1 .
+```
+2. lié les 2 noms suivant: 
+```bash
+docker tag helloworld-image ic-registry.epfl.ch/d-vet/name_kube #name_kube a changer ex: ic-registry.epfl.ch/d-vet/pval-sem-a2c
+```
+3. Now we can push our image:
+
+```bash
+docker push ic-registry.epfl.ch/d-vet/name_kube
+```
+4. Checking the existing RunAI projects
+
+```bash
+runai list project
+```
+How to check the job:
+
+```bash
+runai describe job hello1 -p ml4ed-peyron
+```
+
+Checking the logs:
+
+```bash
+ kubectl logs hello1-0-0 -n runai-ml4ed-peyron
+```
+
+How to get all jobs
+
+```bash
+runai list jobs -p ml4ed-peyron
+```
+
+How to delete the job:
+
+```bash
+runai delete job -p ml4ed-peyron hello1 project-sem
+```
+
+5. Check the name of the Persistent Volumes you lab has access to:
+
+```bash
+kubectl get pvc -n runai-ml4ed-peyron
+```
+6. New way of launching a job on runai (change the yaml file with your IDs):
+
+```bash
+kubectl create -f kube.yaml
+```
+7. getting acces to the results: 
+For ML4ED (ask me for the password):
+
+```bash
+ssh root@icvm0018.xaas.epfl.ch
+```
+mdp ml4ed: !Au2WazEr6!ZF!@6JjjY
+and then it should be in: /mnt/ic1files_epfl_ch_u13722_ic_ml4ed_001_files_nfs
+
+
 ## Installation
 
 Requires python 3.10
