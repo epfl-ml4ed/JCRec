@@ -13,13 +13,13 @@ RUN pip install -r requirements.txt
 # Copier les fichiers source et de configuration dans le conteneur
 COPY src/ /src
 COPY config/ /config
-COPY run.sh .
+COPY entrypoint.sh .
 COPY data /data
 
 RUN chmod -R 777 /data
 
 # Donner les permissions d'exécution au script run.sh
-RUN chmod 777 run.sh
+RUN chmod 777 entrypoint.sh
 
 # Créer un dossier pour les résultats des simulations
 RUN mkdir /results && chmod 777 /results
