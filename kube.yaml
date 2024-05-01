@@ -22,15 +22,15 @@ spec:
       - name: container-name  # No idea why we have this, we already have the job name
         image: ic-registry.epfl.ch/d-vet/pval-sem-a2c #############################  # TO CHANGE
         args:  # Arguments passed to the container.
-        - name: a2c_run.sh # dqn_run.sh, ppo_run.sh, greedy_run.sh, optimal_run.sh
+        - a2c_run.sh # dqn_run.sh, ppo_run.sh, greedy_run.sh, optimal_run.sh
         resources:
           limits:
             cpu: "20"  # Limit the container to use 1 CPU core.
             nvidia.com/gpu: 0  # Specifies no GPU for this container.
         volumeMounts:
-        - mountPath: /data  # Path in the container at which the volume should be mounted.
+        - mountPath: /tmp/results  # Path in the container at which the volume should be mounted.
           name: data-volume  # Refers to the name of the volume to be mounted.
       volumes:
       - name: data-volume
         persistentVolumeClaim:
-          claimName: runai-ml4ed-frej-ml4eddata1  # The name of the PVC that this volume will use.
+          claimName: runai-ml4ed-peyron-ml4eddata1  # The name of the PVC that this volume will use.

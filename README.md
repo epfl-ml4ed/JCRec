@@ -10,12 +10,18 @@ docker build -t nom_de_votre_image:etiquette .
 ```bash
 docker run --name nom_de_votre_conteneur nom_de_votre_image:etiquette
 ```
-3. Si vous voilez voir le docker construit:
+3. Si vous voilez voir le docker construit:pe
 ```bash
 docker images
 ```
 
 ## Run:ai use on the ml4ed server:
+
+Now let us login to the registry. (try with sudo if does not work)
+
+```bash
+docker login ic-registry.epfl.ch
+```
 
 1. construire image docker:
 ```bash
@@ -23,12 +29,12 @@ docker build -t nom_de_votre_image:etiquette . # ex: pval-sem-a2c:v1 .
 ```
 2. lié les 2 noms suivant: 
 ```bash
-docker tag helloworld-image ic-registry.epfl.ch/d-vet/name_kube #name_kube a changer ex: ic-registry.epfl.ch/d-vet/pval-sem-a2c
+docker tag  project_sem_a2c_k1:v1 ic-registry.epfl.ch/d-vet/pval-sem-a2c #name_kube a changer ex: ic-registry.epfl.ch/d-vet/pval-sem-a2c
 ```
 3. Now we can push our image:
 
 ```bash
-docker push ic-registry.epfl.ch/d-vet/name_kube
+docker push ic-registry.epfl.ch/d-vet/pval-sem-a2c
 ```
 4. Checking the existing RunAI projects
 
@@ -56,7 +62,7 @@ runai list jobs -p ml4ed-peyron
 How to delete the job:
 
 ```bash
-runai delete job -p ml4ed-peyron hello1 project-sem
+runai delete job -p ml4ed-peyron pval-sem-a2c project-sem
 ```
 
 5. Check the name of the Persistent Volumes you lab has access to:
@@ -92,7 +98,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-python src/pipeline.py --config config/run.yaml
+python src/pipeline.py --config config/run_test.yaml
 ```
 (pour run plusieurs config différents avec python src/pipeline.py --config config/run.yaml créer un name.sh pour le lancer ./name.sh mettre a l'interieur et a la kingne:)
 Below you will find a detailed description of the parameters of the config file
