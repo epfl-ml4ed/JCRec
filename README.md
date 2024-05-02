@@ -1,5 +1,16 @@
 # Job-market Oriented Course Recommendation System
 
+# Cluster for free to use:
+see:
+https://scitas-doc.epfl.ch/user-guide/using-clusters/connecting-to-the-clusters/
+
+```bash
+ssh -A peyron@izar.epfl.ch # izar or jed
+```
+- Entrer mdp is-academia
+
+
+
 Repository of experiments for a job market oriented course recommender system. Ongoing project, more work is required.
 ## Docker use:
 1. construire image docker:
