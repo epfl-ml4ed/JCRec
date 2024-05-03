@@ -156,6 +156,7 @@ class Greedy_reward(Greedy):
             + str(k)
             + "_run_"
             + str(run)
+            + "_reward"
             + ".json"
         )
         

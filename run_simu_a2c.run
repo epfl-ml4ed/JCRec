@@ -1,0 +1,13 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks=5
+#SBATCH --cpus-per-task=20
+#SBATCH --time=24:00:00
+#SBATCH --mem=10G 
+#SBATCH --gres=gpu:5       # je demande 5 GPU au total, un pour chaque tâche
+
+# on navigue vers le répertoire contenant le script bash
+cd "$(dirname "$0")"
+
+# On exécute le script a2c_run.sh 
+bash entrypoint.sh a2c_run.sh

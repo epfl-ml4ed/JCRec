@@ -216,6 +216,7 @@ class Optimal_reward(Optimal):
             + str(k)
             + "_run_"
             + str(run)
+            +"_reward"
             + ".json"
         )
 

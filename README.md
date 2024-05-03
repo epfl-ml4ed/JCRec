@@ -9,6 +9,26 @@ ssh -A peyron@izar.epfl.ch # izar or jed
 ```
 - Entrer mdp is-academia
 
+# How to lauch, see, stop jobs:
+
+- to launch a job:
+```bash
+sbatch run_simu.run
+```
+- Cancel a job:
+```bash
+scancel JOBID
+```
+- Squeue shows information about all your jobs:
+```bash
+Squeue
+```
+```bash
+```
+```bash
+
+```
+
 
 
 Repository of experiments for a job market oriented course recommender system. Ongoing project, more work is required.

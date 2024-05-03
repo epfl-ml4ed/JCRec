@@ -11,7 +11,7 @@ from CourseRecEnv import CourseRecEnv, EvaluateCallback
 
 class Reinforce:
     def __init__(
-        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100,
+        self, dataset, model, k, threshold, run,type_, total_steps=1000, eval_freq=100,
         env_class=CourseRecEnv, callback_class = EvaluateCallback   # Paramètre pour la classe d'environnement avec une valeur par défaut
     ):
         self.dataset = dataset
@@ -36,6 +36,8 @@ class Reinforce:
             + str(self.k)
             + "_run_"
             + str(run)
+            + "_"
+            + str(type_)
             + ".txt"
         )
         self.final_results_filename = (
@@ -47,6 +49,8 @@ class Reinforce:
             + str(self.k)
             + "_run_"
             + str(self.run)
+            + "_"
+            + str(type_)
             + ".json"
         )
 

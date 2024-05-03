@@ -72,6 +72,7 @@ def main():
                 config["k"], 
                 config["threshold"],
                 run,
+                config["type"],
                 config["total_steps"],
                 config["eval_freq"],
             )

@@ -16,10 +16,10 @@ from CourseRecEnv_reward import EvaluateCallback_reward, CourseRecEnv_reward
  
 class Reinforce_reward(Reinforce):
     def __init__(
-        self, dataset, model, k, threshold, run, total_steps=1000, eval_freq=100
+        self, dataset, model, k, threshold, run,type_,  total_steps=1000, eval_freq=100
     ):
         # Appel au constructeur de la classe mère avec une classe d'environnement spécifique
-        super().__init__(dataset, model, k, threshold, run, total_steps, eval_freq,
+        super().__init__(dataset, model, k, threshold, run, type_ , total_steps, eval_freq,
                          env_class=CourseRecEnv_reward, callback_class=EvaluateCallback_reward)
 
     def get_model(self):
