@@ -10,6 +10,10 @@ ssh -A peyron@izar.epfl.ch # izar or jed
 - Entrer mdp is-academia
 
 # How to lauch, see, stop jobs:
+- First give the right to everyone, for everything:
+```bash
+chmod -R 777 .
+```
 
 - to launch a job:
 ```bash
