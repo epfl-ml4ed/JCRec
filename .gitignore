@@ -172,4 +172,5 @@ check_*
 ids.txt
 playground.ipynb
 kube.yaml
+*.out
 

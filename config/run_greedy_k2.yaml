@@ -15,6 +15,6 @@ k: 2
 model: greedy #AAtention ppo utilise plus de steps dqn utilise le bon nombre
 total_steps: 5000000
 eval_freq: 500000
-nb_runs: 
+nb_runs: 1 
 seed: 42
 type: reward #proba or reward

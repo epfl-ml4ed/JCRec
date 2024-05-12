@@ -1,10 +1,9 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --ntasks=3
-#SBATCH --cpus-per-task=10
-#SBATCH --time=24:00:00
-#SBATCH --mem=10G 
-#SBATCH --gres=gpu:0      # je demande 5 GPU au total, un pour chaque tâche
+#SBATCH --cpus-per-task=4
+#SBATCH --time=6:00:00
+#SBATCH --gres=gpu:2      # je demande 5 GPU au total, un pour chaque tâche
 
 # on navigue vers le répertoire contenant le script bash
 cd "$(dirname "$0")"

@@ -23,7 +23,9 @@ scancel JOBID
 ```bash
 Squeue
 ```
+- To get information about a job:
 ```bash
+Sjob jobID
 ```
 ```bash
 

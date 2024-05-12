@@ -15,6 +15,6 @@ k: 4
 model: dqn #AAtention ppo utilise plus de steps dqn utilise le bon nombre
 total_steps: 5000000
 eval_freq: 500000
-nb_runs: 1
+nb_runs: 3
 seed: 42
 type: reward #proba or reward

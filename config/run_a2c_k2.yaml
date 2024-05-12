@@ -1,23 +1,4 @@
-<<<<<<< HEAD:config/run.yaml
-taxonomy_path: data/taxonomy.csv
-course_path: data/courses.json
-cv_path: data/resumes.json
-job_path: data/jobs.json
-mastery_levels_path: data/mastery_levels.json
-results_path: results
-level_3: true
-nb_courses: 100
-nb_cvs: -1
-max_cv_skills: 15
-nb_jobs: 100
-threshold: 0.8
-k: 2
-model: dqn
-total_steps: 5000
-eval_freq: 6000
-nb_runs: 1
-seed: 42
-=======
+
 taxonomy_path: data/taxonomy.csv
 course_path: data/courses.json
 cv_path: data/resumes.json
@@ -35,7 +16,6 @@ k: 2
 model: a2c #AAtention ppo utilise plus de steps dqn utilise le bon nombre
 total_steps: 5000000
 eval_freq: 500000
-nb_runs: 1
+nb_runs: 3
 seed: 42
 type: reward #proba or reward
->>>>>>> develop:config/run_a2c_k2.yaml
