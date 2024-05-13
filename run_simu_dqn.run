@@ -6,7 +6,7 @@
 #SBATCH --gres=gpu:1       # je demande 5 GPU au total, un pour chaque tâche
 
 # on navigue vers le répertoire contenant le script bash
-cd "$(dirname "$0")"
+#cd "$(dirname "$0")"
 
 # On exécute le script a2c_run.sh 
 bash entrypoint.sh dqn_run.sh
