@@ -13,8 +13,8 @@ nb_jobs: -1
 threshold: 0.8
 k: 5
 model: a2c #AAtention ppo utilise plus de steps dqn utilise le bon nombre
-total_steps: 5000000
-eval_freq: 500000
+total_steps: 500000
+eval_freq: 10000
 nb_runs: 3
 seed: 42
 type: reward #proba or reward

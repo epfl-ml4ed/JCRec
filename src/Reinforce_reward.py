@@ -25,13 +25,13 @@ class Reinforce_reward(Reinforce):
     def get_model(self):
         """Sets the model to be used for the recommendation. The model is from stable-baselines3 and is chosen based on the model_name attribute."""
         if self.model_name == "dqn":
-            self.model = DQN(env=self.train_env, verbose=0, policy="MlpPolicy")
+            self.model = DQN(env=self.train_env, verbose=0, policy="MlpPolicy", device="auto")
         elif self.model_name == "a2c":
             self.model = A2C(
-                env=self.train_env, verbose=0, policy="MlpPolicy", device="cpu"
+                env=self.train_env, verbose=0, policy="MlpPolicy", device="auto"
             )
         elif self.model_name == "ppo":
-            self.model = PPO(env=self.train_env, verbose=0, policy="MlpPolicy")
+            self.model = PPO(env=self.train_env, verbose=0, policy="MlpPolicy", device="auto")
 
     def update_learner_profile(self, learner, course):
         """Updates the learner's profile with the skills and levels of the course.

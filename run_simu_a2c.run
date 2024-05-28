@@ -1,9 +1,10 @@
 #!/bin/bash
+#SBATCH --job-name=a2c_proba_k_1_cpu_gpu
 #SBATCH --nodes=1
-#SBATCH --ntasks=5
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
-#SBATCH --time=6:00:00
-#SBATCH --gres=gpu:1      # je demande 5 GPU au total, un pour chaque tâche
+#SBATCH --time=5:00:00
+#SBATCH --gres=gpu:0     # je demande 5 GPU au total, un pour chaque tâche
 
 # on navigue vers le répertoire contenant le script bash
 #cd "$(dirname "$0")"

@@ -66,7 +66,7 @@ class Reinforce:
             self.model = DQN(env=self.train_env, verbose=0, policy="MlpPolicy")
         elif self.model_name == "a2c":
             self.model = A2C(
-                env=self.train_env, verbose=0, policy="MlpPolicy", device="cpu"
+                env=self.train_env, verbose=0, policy="MlpPolicy", device="auto"
             )
         elif self.model_name == "ppo":
             self.model = PPO(env=self.train_env, verbose=0, policy="MlpPolicy")
